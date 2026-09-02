@@ -18,7 +18,7 @@ class PlatformSettings:
     host: str = "0.0.0.0"
     port: int = 8643
     api_key: str = ""
-    toolset_name: str = "client_platform"
+    toolset_name: str = "client_side"
     tool_timeout_seconds: float = 60.0
     idle_timeout_seconds: float = 1800.0
     http_read_timeout_seconds: float = 300.0
