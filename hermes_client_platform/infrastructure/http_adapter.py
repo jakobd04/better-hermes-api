@@ -138,6 +138,13 @@ class ClientPlatformAdapter(BasePlatformAdapter):
             if self._session_manager is not None:
                 self._session_manager.cleanup_idle()
 
+    async def get_chat_info(self, chat_id: str) -> dict[str, Any]:
+        """Liefert Chat-Informationen fuer die Session-Aufloesung (Pflicht der Basisklasse).
+
+        Die Platform verwaltet keine Chat-Objekte; chat_id ist die Session-ID.
+        """
+        return {"name": chat_id, "type": "dm"}
+
     # -- Auth ---------------------------------------------------------------
 
     def _check_auth(self, request: web.Request) -> bool:
