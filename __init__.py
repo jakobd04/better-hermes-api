@@ -1,1 +1,1 @@
-from src.hermes_client_platform import register
+from .hermes_client_platform import register
