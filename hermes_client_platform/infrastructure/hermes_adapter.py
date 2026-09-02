@@ -61,8 +61,13 @@ class HermesAgentPort(AgentPort):
         # Agent direkt halten — agent_ref[0] fuer steer() (Agent-Methode)
         agent_ref: list = [agent]
         task = asyncio.ensure_future(
-            agent.run_conversation(user_message=user_message, conversation_history=history)
+            asyncio.to_thread(
+                agent.run_conversation,
+                user_message,
+                conversation_history=history,
+            )
         )
+
         return AgentHandle(agent_ref=agent_ref, task=task)
 
 
