@@ -55,7 +55,7 @@ class HermesAgentPort(AgentPort):
             tool_start_callback=on_tool_start,
             tool_complete_callback=on_tool_complete,
             session_db=SessionDB(),
-            gateway_session_key=***
+            gateway_session_key=session_key
         )
 
         # Agent direkt halten — agent_ref[0] fuer steer() (Agent-Methode)
