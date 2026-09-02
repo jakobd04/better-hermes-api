@@ -1,0 +1,15 @@
+name: hermes-client-platform
+label: Client Platform (OpenAI-kompatibel, client_*-Tools)
+kind: platform
+version: "0.1.0"
+description: "OpenAI-kompatible Platform mit client_-Tool-Passthrough (blockierende Handler)"
+author: VAE
+requires_env:
+  - CLIENT_PLATFORM_KEY
+optional_env:
+  - name: CLIENT_PLATFORM_PORT
+    description: "Port des HTTP-Endpoints (Default 8643)"
+    password: false
+  - name: CLIENT_PLATFORM_HOST
+    description: "Bind-Adresse (Default 0.0.0.0)"
+    password: false
