@@ -20,37 +20,51 @@ logger = logging.getLogger(__name__)
 class HermesAgentPort(AgentPort):
     """AgentPort gegen run_conversation und agent.steer (Spec 3.4/3.5)."""
 
-    def start_turn(
-        self,
-        user_message: str,
-        history: list[dict[str, Any]],
-        session_id: str,
-        session_key: str,
-        on_content_delta: Callable[[str], None],
-        on_tool_start: Optional[Callable[[str, str, dict], None]] = None,
-        on_tool_complete: Optional[Callable[[str, str, dict, str], None]] = None,
-    ) -> AgentHandle:
-        from run_agent import run_conversation  # lazy: Hermes-Prozess-Kontext
+    def start_turn(self, user_message, history, session_id, session_key,
+                on_content_delta, on_tool_start=None, on_tool_complete=None) -> AgentHandle:
+        from run_agent import AIAgent
+        from gateway.run import (
+            _checkpoint_agent_kwargs, _current_max_iterations,
+            _resolve_runtime_agent_kwargs, _resolve_gateway_model,
+            _load_gateway_config,
+        )
+        from hermes_cli.tools_config import _get_platform_tools
+        from hermes_state import SessionDB
 
-        # Annahme: agent_ref wird von run_conversation befuellt (Muster aus
-        # gateway/platforms/api_server.py). Beim ersten Lauf verifizieren.
-        agent_ref: list[Any] = []
+        # Muster aus gateway/platforms/api_server.py (_create_agent)
+        runtime_kwargs = _resolve_runtime_agent_kwargs()
+        model = _resolve_gateway_model()
+        runtime_model = runtime_kwargs.pop("model", None)
+        if runtime_model:
+            model = runtime_model
+
+        user_config = _load_gateway_config()
+        enabled_toolsets = sorted(_get_platform_tools(user_config, "client_sides"))
+
+        agent = AIAgent(
+            model=model,
+            **runtime_kwargs,
+            **_checkpoint_agent_kwargs(user_config),
+            max_iterations=_current_max_iterations(),
+            quiet_mode=True,
+            verbose_logging=False,
+            enabled_toolsets=enabled_toolsets,
+            session_id=session_id,
+            platform="better-hermes-api",
+            stream_delta_callback=on_content_delta,
+            tool_start_callback=on_tool_start,
+            tool_complete_callback=on_tool_complete,
+            session_db=SessionDB(),
+            gateway_session_key=***
+        )
+
+        # Agent direkt halten — agent_ref[0] fuer steer() (Agent-Methode)
+        agent_ref: list = [agent]
         task = asyncio.ensure_future(
-            run_conversation(
-                user_message=user_message,
-                conversation_history=history,
-                session_id=session_id,
-                gateway_session_key=session_key,
-                stream_delta_callback=on_content_delta,
-                # Signatur wie im api_server-Muster:
-                #   tool_start_callback(tool_call_id, function_name, function_args)
-                #   tool_complete_callback(tool_call_id, function_name, function_args, function_result)
-                tool_start_callback=on_tool_start,
-                tool_complete_callback=on_tool_complete,
-                agent_ref=agent_ref,
-            )
+            agent.run_conversation(user_message=user_message, conversation_history=history)
         )
         return AgentHandle(agent_ref=agent_ref, task=task)
+
 
     def steer(self, agent: AgentHandle, text: str) -> bool:
         if not agent.agent_ref:
