@@ -81,7 +81,7 @@ class ClientPlatformAdapter(BasePlatformAdapter):
     """aiohttp-Plattform-Adapter der Custom Platform."""
 
     def __init__(self, config: PlatformConfig) -> None:
-        super().__init__(config, Platform("client_platform"))
+        super().__init__(config, Platform("better-hermes-api"))
         self._settings = PlatformSettings.from_extra(config.extra)
         self._app: Optional[web.Application] = None
         self._runner: Optional[web.AppRunner] = None

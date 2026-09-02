@@ -33,7 +33,7 @@ class PlatformSettings:
             host=extra.get("host") or env.get("BETTER_HERMES_API_HOST", "0.0.0.0"),
             port=int(extra.get("port") or env.get("BETTER_HERMES_API_PORT", "8643")),
             api_key=env.get("BETTER_HERMES_API_KEY", "") or extra.get("api_key", ""),
-            toolset_name=extra.get("toolset", "client_platform"),
+            toolset_name=extra.get("toolset", "client_side"),
             tool_timeout_seconds=float(
                 extra.get("tool_timeout") or env.get("BETTER_HERMES_API_TOOL_TIMEOUT", "60")
             ),
