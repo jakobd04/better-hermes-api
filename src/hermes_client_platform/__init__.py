@@ -26,12 +26,12 @@ def register(ctx):
     )
 
     ctx.register_platform(
-        name="client_platform",
-        label="Client Platform (OpenAI-kompatibel, client_*-Tools)",
+        name="better-hermes-api",
+        label="Better Hermes API (OpenAI-kompatibel, client_*-Tools)",
         adapter_factory=lambda cfg: ClientPlatformAdapter(cfg),
         check_fn=check_requirements,
         validate_config=validate_config,
-        required_env=["CLIENT_PLATFORM_KEY"],
+        required_env=["BETTER_HERMES_API_KEY"],
         install_hint="Konfiguriert ueber config.yaml (gateway.platforms.client_platform).",
         env_enablement_fn=_env_enablement,
         max_message_length=0,

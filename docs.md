@@ -78,7 +78,7 @@ Entwicklung in VS Code.
 2. Plugin-Stub in `~/.hermes/plugins/hermes-client-platform/` anlegen:
    - `plugin.yaml` (Kopie aus dem Projekt)
    - `__init__.py` mit einer Zeile: `from hermes_client_platform import register`
-3. Env-Variable setzen: `CLIENT_PLATFORM_KEY=<geheimer Key>`
+3. Env-Variable setzen: `BETTER_HERMES_API_KEY=<geheimer Key>`
 4. Platform in `config.yaml` aktivieren:
    ```yaml
    gateway:

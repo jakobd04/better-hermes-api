@@ -5,11 +5,11 @@ version: "0.1.0"
 description: "OpenAI-kompatible Platform mit client_-Tool-Passthrough (blockierende Handler)"
 author: VAE
 requires_env:
-  - CLIENT_PLATFORM_KEY
+  - BETTER_HERMES_API_KEY
 optional_env:
-  - name: CLIENT_PLATFORM_PORT
+  - name: BETTER_HERMES_API_PORT
     description: "Port des HTTP-Endpoints (Default 8643)"
     password: false
-  - name: CLIENT_PLATFORM_HOST
+  - name: BETTER_HERMES_API_HOST
     description: "Bind-Adresse (Default 0.0.0.0)"
     password: false

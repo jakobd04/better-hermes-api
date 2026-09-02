@@ -93,7 +93,7 @@ class ClientPlatformAdapter(BasePlatformAdapter):
 
     async def connect(self, *, is_reconnect: bool = False) -> bool:
         if not self._settings.api_key:
-            logger.error("CLIENT_PLATFORM_KEY ist nicht gesetzt; Platform startet nicht.")
+            logger.error("BETTER_HERMES_API_KEY ist nicht gesetzt; Platform startet nicht.")
             return False
 
         self._session_manager = SessionManager(
@@ -276,19 +276,19 @@ class ClientPlatformAdapter(BasePlatformAdapter):
 
 
 def check_requirements() -> bool:
-    return bool(os.getenv("CLIENT_PLATFORM_KEY"))
+    return bool(os.getenv("BETTER_HERMES_API_KEY"))
 
 
 def validate_config(config) -> bool:
     extra = getattr(config, "extra", {}) or {}
-    return bool(os.getenv("CLIENT_PLATFORM_KEY") or extra.get("api_key"))
+    return bool(os.getenv("BETTER_HERMES_API_KEY") or extra.get("api_key"))
 
 
 def _env_enablement() -> Optional[dict]:
     """Seed fuer PlatformConfig.extra aus Env-Variablen (Env-Auto-Enable)."""
-    if not os.getenv("CLIENT_PLATFORM_KEY"):
+    if not os.getenv("BETTER_HERMES_API_KEY"):
         return None
     return {
-        "host": os.getenv("CLIENT_PLATFORM_HOST", "0.0.0.0"),
-        "port": int(os.getenv("CLIENT_PLATFORM_PORT", "8643")),
+        "host": os.getenv("BETTER_HERMES_API_HOST", "0.0.0.0"),
+        "port": int(os.getenv("BETTER_HERMES_API_PORT", "8643")),
     }
