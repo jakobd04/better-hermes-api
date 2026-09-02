@@ -1,4 +1,4 @@
-name: hermes-client-platform
+name: better-hermes-api
 label: Client Platform (OpenAI-kompatibel, client_*-Tools)
 kind: platform
 version: "0.1.0"
