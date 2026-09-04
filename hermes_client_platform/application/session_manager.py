@@ -180,13 +180,14 @@ class SessionManager:
         )
         record.loop_record = loop_record
 
+        tool_registry.register_client_tools(
+            loop_record, ingress.tool_definitions, self._registry_port, self._settings
+        )
+
         self._runner.start_turn(
             loop_record,
             user_message=user_message,
             history=history,
             session_id=record.session_id,
             session_key=record.session_key,
-        )
-        tool_registry.register_client_tools(
-            loop_record, ingress.tool_definitions, self._registry_port, self._settings
         )
